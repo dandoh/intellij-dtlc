@@ -54,7 +54,9 @@ unquote ::= unquoteKeywords exp {
 	pin=1
 	extends=declaration
 }
-open ::= KW_OPEN exp { extends=declaration }
+open ::= KW_OPEN nameExp importModification* {
+	extends=declaration
+}
 private aliasKeywords ::=
    KW_PATTERN
  | KW_SYNTAX
@@ -74,7 +76,10 @@ importPackage ::= KW_OPEN? KW_IMPORT nameExp importModification* {
 	pin=2
 	extends=declaration
 }
-private importModification ::= visibility | renaming
+private importModification ::= importAlias | visibility | renaming
+
+importAlias ::= "as" IDENTIFIER
+
 visibilityKeywords ::= "using" | "hiding"
 visibility ::= visibilityKeywords OPEN_PAREN (nameExp nameExpRest*)? CLOSE_PAREN { pin=1 }
 private nameExpRest ::= SEMI nameExp { pin=1 }
